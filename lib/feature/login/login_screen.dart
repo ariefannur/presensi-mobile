@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:presensi_mobile/data/remote/remote_auth.dart';
+import 'package:presensi_mobile/data/repository/auth_repository.dart';
 import 'package:presensi_mobile/feature/home/home_screen.dart';
 import 'package:presensi_mobile/utils/fonts_constant.dart';
 import 'package:presensi_mobile/feature/login/change_password_screen.dart';
+import 'package:presensi_mobile/utils/loging.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -46,6 +49,7 @@ class LoginScreen extends StatelessWidget {
                     height: 20,
                   ),
                   TextField(
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: TextStyle(
@@ -63,14 +67,15 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 40,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 16)),
                       onPressed: () {
-                        _homeScreen(context);
+                        //_homeScreen(context);
+                        _doLogin();
                       },
                       child: const Text(
                         'Login',
@@ -96,6 +101,14 @@ class LoginScreen extends StatelessWidget {
                     ),
                   )
                 ])));
+  }
+
+  _doLogin() {
+    AuthRepository(RemoteAuth()).getUserSession().then((value) {
+      //if (value != null) {
+      loging("session " + value.token);
+      //}
+    });
   }
 
   _changePassword(context) {
