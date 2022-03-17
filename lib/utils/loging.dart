@@ -1,5 +1,8 @@
 // ignore: constant_identifier_names
-const DEBUG = true;
+import 'env.dart';
+
+// ignore: constant_identifier_names
+const DEBUG = FLAVOR == 'DEBUG';
 
 loging(String log) {
   if (DEBUG) {

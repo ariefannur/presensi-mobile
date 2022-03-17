@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:presensi_mobile/data/remote/remote_auth.dart';
 import 'package:presensi_mobile/data/repository/auth_repository.dart';
+import 'package:presensi_mobile/data/repository/user_repository.dart';
 import 'package:presensi_mobile/feature/home/home_screen.dart';
 import 'package:presensi_mobile/utils/fonts_constant.dart';
 import 'package:presensi_mobile/feature/login/change_password_screen.dart';
@@ -104,11 +105,16 @@ class LoginScreen extends StatelessWidget {
   }
 
   _doLogin() {
-    AuthRepository(RemoteAuth()).getUserSession().then((value) {
-      //if (value != null) {
-      loging("session " + value.token);
-      //}
-    });
+    // final authRepository = AuthRepository(RemoteAuth(), UserRepository());
+    // authRepository.login(username: 'admin', password: 'admin');
+  }
+
+  _getSession() {
+    // AuthRepository(RemoteAuth(), UserRepository()).getUserSession().then((value) {
+    //   //if (value != null) {
+    //   loging("session " + value.token);
+    //   //}
+    // });
   }
 
   _changePassword(context) {

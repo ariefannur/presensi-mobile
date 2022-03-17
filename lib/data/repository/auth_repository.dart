@@ -1,8 +1,7 @@
 import 'dart:async';
-
-import 'package:presensi_mobile/data/model/auth.dart';
 import 'package:presensi_mobile/data/remote/remote_auth.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../di.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -17,7 +16,7 @@ class AuthRepository {
   }) async {
     final response = await remote.doLogin(username, password);
     if (response.positive != null) {
-      _saveSesion(response.positive!);
+      prefManager.saveSesion(response.positive!);
       _controller.add(AuthenticationStatus.authenticated);
     } else {
       _controller.add(AuthenticationStatus.unauthenticated);
@@ -25,21 +24,21 @@ class AuthRepository {
   }
 
   getUserSession() async {
-    return await _getSession();
+    return await prefManager.getSession();
   }
 
-  _saveSesion(Auth auth) async {
-    // Obtain shared preferences.
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString("session", auth.token);
-    prefs.setInt("uid", auth.user_id);
-  }
-
-  _getSession() async {
-    // Obtain shared preferences.
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString("session") ?? "";
-    final uid = prefs.getInt("uid") ?? 0;
-    return Auth(uid, token);
+  Future<bool> logout() async {
+    final profile = await prefManager.getProfile();
+    if (profile != null) {
+      final response = await remote.doLogout(profile.id);
+      if (response) {
+        prefManager.clearSession();
+        _controller.add(AuthenticationStatus.unauthenticated);
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   }
 }
