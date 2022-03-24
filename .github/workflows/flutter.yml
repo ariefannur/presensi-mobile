@@ -21,6 +21,12 @@ jobs:
         with:
           channel: 'stable'
 
-      - name: Install dependencies
+      - name: Flutter Version
         run: flutter --version
+      
+      - name: Get Dependencies
+        run: flutter pub get
+
+      - name: Run Tests
+        run: flutter test
 
