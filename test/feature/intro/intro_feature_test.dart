@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:presensi_mobile/data/remote/remote_app.dart';
 import 'package:presensi_mobile/data/repository/app_repository.dart';
 import 'package:http/testing.dart';
-import 'package:http/Http.dart' as http;
+import 'package:http/http.dart' as http;
 
 void main() {
   test('get version app', () async {
