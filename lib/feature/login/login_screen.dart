@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:presensi_mobile/data/remote/remote_auth.dart';
-import 'package:presensi_mobile/data/repository/auth_repository.dart';
-import 'package:presensi_mobile/data/repository/user_repository.dart';
 import 'package:presensi_mobile/feature/home/home_screen.dart';
 import 'package:presensi_mobile/utils/fonts_constant.dart';
 import 'package:presensi_mobile/feature/login/change_password_screen.dart';
-import 'package:presensi_mobile/utils/loging.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -75,8 +71,7 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 16)),
                       onPressed: () {
-                        //_homeScreen(context);
-                        _doLogin();
+                        _homeScreen(context);
                       },
                       child: const Text(
                         'Login',
