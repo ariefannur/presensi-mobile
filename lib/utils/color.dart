@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xFF1976d2);
@@ -7,6 +5,7 @@ const primaryLightColor = Color(0xFF63a4ff);
 const backgroundLightColor = Color.fromARGB(255, 227, 242, 253);
 const primaryDarkColor = Color(0xFF004ba0);
 const primaryTextColor = Color(0xFFffffff);
+const primaryTextColorBlack = Color.fromARGB(255, 49, 47, 47);
 
 MaterialColor createMaterialColor(Color color) {
   List strengths = <double>[.05];

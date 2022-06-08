@@ -1,4 +1,6 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:presensi_mobile/feature/home/camera_screen.dart';
 import 'package:presensi_mobile/feature/home/presensi_screen.dart';
 import 'package:presensi_mobile/feature/home/profile_screen.dart';
 
@@ -11,12 +13,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     PresensiScreen(),
     ProfileScreen(),
   ];
+
+  late List<CameraDescription> cameras;
+
+  @override
+  void initState() {
+    super.initState();
+    getCamera();
+  }
+
+  getCamera() async {
+    cameras = await availableCameras();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CameraScreen(cameras.first)));
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomNavigationBar(

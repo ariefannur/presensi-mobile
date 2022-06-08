@@ -61,7 +61,7 @@ class ChangePasswordScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 40,
                     child: ElevatedButton(

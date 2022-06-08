@@ -19,7 +19,11 @@ class AuthRepository {
       prefManager.saveSesion(response.positive!);
       _controller.add(AuthenticationStatus.authenticated);
     } else {
-      _controller.add(AuthenticationStatus.unauthenticated);
+      if (response.negative.code == 503) {
+        _controller.add(AuthenticationStatus.unknown);
+      } else {
+        _controller.add(AuthenticationStatus.unauthenticated);
+      }
     }
   }
 
@@ -40,5 +44,11 @@ class AuthRepository {
       }
     }
     return false;
+  }
+
+  getController() => _controller.stream;
+
+  dispose() {
+    _controller.close();
   }
 }

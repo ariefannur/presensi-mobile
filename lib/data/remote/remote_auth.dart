@@ -13,24 +13,33 @@ class RemoteAuth extends BaseRemote {
   Future<Consumable<Auth, BaseNegative>> doLogin(
       String username, String password) async {
     var url = Uri.parse(BASE_URL + "login");
-    var response =
-        await client.post(url, body: {"email": username, "password": password});
 
-    if (response.statusCode == 200) {
-      final res = getPositive(response.body);
-      return Consumable(Auth.fromJson(res.data), BaseNegative.None());
-    } else {
-      final res = getNegative(response.body);
-      return Consumable(null, res);
+    try {
+      var response = await client
+          .post(url, body: {"email": username, "password": password});
+
+      if (response.statusCode == 200) {
+        final res = getPositive(response.body);
+        return Consumable(Auth.fromJson(res.data), BaseNegative.None());
+      } else {
+        final res = getNegative(response.body);
+        return Consumable(null, res);
+      }
+    } catch (e) {
+      return Consumable(null, BaseNegative(503, e.toString()));
     }
   }
 
   Future<bool> doLogout(String userId) async {
     var url = Uri.parse(BASE_URL + "logout");
-    var response = await client.post(url, body: {"user_id": userId});
-    if (response.statusCode == 200) {
-      return true;
-    } else {
+    try {
+      var response = await client.post(url, body: {"user_id": userId});
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
       return false;
     }
   }

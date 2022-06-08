@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:presensi_mobile/data/model/base_negative.dart';
 import 'package:presensi_mobile/data/model/base_response.dart';
 import 'package:presensi_mobile/data/model/consumable.dart';
@@ -13,17 +15,20 @@ class RemoteUser extends BaseRemote {
   Future<Consumable<BaseResponse, BaseNegative>> doChangePassword(
       String token, String newPassword, String email) async {
     var url = Uri.parse(BASE_URL + "change-password");
-    final response = await client.post(url, headers: {
-      'Authorization': 'Bearer $token',
-    }, body: {
-      'email': email,
-      'password': newPassword
-    });
 
-    if (response.statusCode == 200) {
-      return Consumable(getPositive(response.body), BaseNegative.None());
-    } else {
-      return Consumable(null, getNegative(response.body));
+    try {
+      final response = await client.post(url,
+          headers: authHeader(token),
+          body: json.encode({'email': email, 'password': newPassword}));
+
+      if (response.statusCode == 200) {
+        print("200 change");
+        return Consumable(getPositive(response.body), BaseNegative.None());
+      } else {
+        return Consumable(null, getNegative(response.body));
+      }
+    } catch (e) {
+      return Consumable(null, BaseNegative(503, e.toString()));
     }
   }
 }

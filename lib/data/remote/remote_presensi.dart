@@ -16,15 +16,9 @@ class RemotePresensi extends BaseRemote {
   Future<Consumable<BaseResponse, BaseNegative>> doPresensi(String token,
       String userId, double lat, double lng, String alamat) async {
     var url = Uri.parse(BASE_URL + "add-presensi");
-    final response = await client.post(url, headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    }, body: {
-      "user_id": "1",
-      "la": lat,
-      "lng": lng,
-      "alamat": alamat
-    });
+    final response = await client.post(url,
+        headers: authHeader(token),
+        body: {"user_id": "1", "la": lat, "lng": lng, "alamat": alamat});
 
     if (response.statusCode == 200) {
       return Consumable(getPositive(response.body), BaseNegative.None());
@@ -36,10 +30,7 @@ class RemotePresensi extends BaseRemote {
   Future<Consumable<List<Presensi>, BaseNegative>> getPresensi(
       String token, String userId) async {
     var url = Uri.parse(BASE_URL + "presensi/$userId");
-    final response = await client.get(url, headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer " + token
-    });
+    final response = await client.get(url, headers: authHeader(token));
 
     if (response.statusCode == 200) {
       var responseJson = jsonDecode(response.body);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:presensi_mobile/data/di.dart';
 import 'package:presensi_mobile/feature/login/login_screen.dart';
 import 'package:presensi_mobile/utils/loging.dart';
 
@@ -96,17 +97,18 @@ class NextButton extends StatelessWidget {
   }
 
   _clickNext(context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    appRepositoryImpl.setIntro();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }
 
 class DotPager extends StatelessWidget {
   final int index;
-  DotPager(this.index);
+  DotPager(this.index, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -37,4 +37,17 @@ class PrefManager {
     final uid = prefs.getInt("uid") ?? 0;
     return Auth(uid, token);
   }
+
+  static const String PREF_ISINTRO = "isIntro";
+
+  setIsIntro(bool value) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool(PREF_ISINTRO, value);
+    });
+  }
+
+  getIsIntro() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(PREF_ISINTRO);
+  }
 }

@@ -1,10 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:presensi_mobile/data/di.dart';
+import 'package:presensi_mobile/data/repository/auth_repository.dart';
 import 'package:presensi_mobile/feature/home/home_screen.dart';
 import 'package:presensi_mobile/utils/fonts_constant.dart';
 import 'package:presensi_mobile/feature/login/change_password_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => LoginScreenState();
+}
+
+class LoginScreenState extends State<LoginScreen> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    authRepositoryImpl.getController().listen((event) {
+      if (event == AuthenticationStatus.unknown) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text("Error"),
+                  content: Text("Server tidak tersedia"),
+                  actions: [
+                    FlatButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ));
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +61,7 @@ class LoginScreen extends StatelessWidget {
                     height: 20,
                   ),
                   TextField(
+                    controller: usernameController,
                     decoration: InputDecoration(
                       hintText: 'ID',
                       hintStyle: TextStyle(
@@ -47,6 +81,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   TextField(
                     obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       hintStyle: TextStyle(
@@ -71,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                           textStyle: const TextStyle(fontSize: 16)),
                       onPressed: () {
-                        _homeScreen(context);
+                        _doLogin();
                       },
                       child: const Text(
                         'Login',
@@ -100,8 +135,9 @@ class LoginScreen extends StatelessWidget {
   }
 
   _doLogin() {
-    // final authRepository = AuthRepository(RemoteAuth(), UserRepository());
-    // authRepository.login(username: 'admin', password: 'admin');
+    authRepositoryImpl.login(
+        username: usernameController.value.text,
+        password: passwordController.value.text);
   }
 
   _getSession() {
@@ -119,6 +155,6 @@ class LoginScreen extends StatelessWidget {
 
   _homeScreen(context) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 }

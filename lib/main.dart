@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:presensi_mobile/feature/home/home_screen.dart';
-import 'package:presensi_mobile/feature/intro/splash_screen.dart';
 import 'package:presensi_mobile/utils/color.dart';
 import 'package:presensi_mobile/utils/fonts_constant.dart';
+
+import 'feature/intro/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-            primarySwatch: createMaterialColor(primaryColor),
-            fontFamily: FontMiliard),
-        home: const HomeScreen() //const SplashScreen(),
-        );
+      title: 'Flutter Demo',
+      theme: ThemeData(
+          primarySwatch: createMaterialColor(primaryColor),
+          fontFamily: FontMiliard),
+      home: const SplashScreen(),
+    );
   }
 }
 

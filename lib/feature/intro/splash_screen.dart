@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:presensi_mobile/data/di.dart';
 import 'package:presensi_mobile/feature/intro/intro_screen.dart';
+import 'package:presensi_mobile/feature/login/login_screen.dart';
 
 import '../../utils/fonts_constant.dart';
 
@@ -36,12 +38,20 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future _getThingsOnStartup(context) async {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () async {
       // ignore: avoid_print
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const IntroScreen()),
-      );
+      final intro = await appRepositoryImpl.getIntro();
+      if (intro == null || intro == false) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const IntroScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
     });
   }
 }

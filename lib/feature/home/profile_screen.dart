@@ -47,7 +47,7 @@ class ItemProfile extends StatelessWidget {
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: Colors.white),
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
       child: Row(
         children: const [
           Icon(Icons.person, color: primaryLightColor),

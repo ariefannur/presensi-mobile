@@ -7,11 +7,12 @@ main() {
   test('Change password should get success when state under test', () async {
     final remoteUser = RemoteUser(MockClient((request) async {
       return http.Response(
-          '{"message":"success", "code": 200, "data": { } }', 200);
+          '{"message":"success", "code": 200, "data": {} }', 200);
     }));
 
-    final response =
-        await remoteUser.doChangePassword("token", "newPassword", "email");
-    expect(response.positive?.code, 200);
+    final response = await remoteUser.doChangePassword(
+        "token", "newPassword", "email@gmail.com");
+
+    expect(response.positive?.message, "success");
   });
 }

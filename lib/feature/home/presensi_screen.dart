@@ -68,11 +68,8 @@ class EmptyPresensi extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const Image(
-            image: AssetImage('assets/icon/ic_empty.png'),
-            width: 100,
-          ),
-          Text("Data belum ada presensi",
+          Image.asset('assets/icon/ic_empty.png', width: 100),
+          const Text("Data belum ada presensi",
               style: TextStyle(
                   fontSize: 16,
                   fontFamily: FontMiliard,
